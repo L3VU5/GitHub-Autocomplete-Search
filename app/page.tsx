@@ -22,7 +22,8 @@ const GET_USERS_AND_REPOS = gql`
       edges {
         node {
           ... on User {
-            login
+            name
+            url
           }
         }
       }
@@ -32,6 +33,7 @@ const GET_USERS_AND_REPOS = gql`
         node {
           ... on Repository {
             name
+            url
           }
         }
       }
@@ -43,11 +45,12 @@ export default function Home() {
   interface SearchResult {
     name: string;
     type: "user" | "repository";
+    url: string;
   }
 
 
   const onAutoCompleteItemClick = (item: SearchResult) => {
-    window.open(`https://github.com/${item.name}`, "_blank");
+    window.open(item.url, "_blank");
   };
 
   const getAutoCompleteItemLabel = (item: SearchResult) => {

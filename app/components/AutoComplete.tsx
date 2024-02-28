@@ -22,6 +22,7 @@ type AutoCompleteProps = {
 interface SearchResult {
   name: string;
   type: "user" | "repository";
+  url: string;
 }
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
@@ -57,12 +58,12 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   useEffect(() => {
     if (data && data.users && data.repositories) {
       const users = data.users.edges.map((edge: any) => ({
-        name: edge.node.name,
+        ...edge.node,
         type: "user",
       }));
 
       const repositories = data.repositories.edges.map((edge: any) => ({
-        name: edge.node.name,
+        ...edge.node,
         type: "repository",
       }));
 
