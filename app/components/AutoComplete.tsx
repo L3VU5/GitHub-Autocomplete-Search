@@ -1,14 +1,23 @@
 "use client";
 
-import React, { useState, useEffect, useRef, KeyboardEvent } from "react";
+import React, {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  KeyboardEvent,
+} from "react";
+import { DocumentNode, useLazyQuery } from "@apollo/client";
+import debounce from "lodash/debounce";
 
 import TextInput from "./TextInput";
+import { sortBy } from "lodash";
 
-interface AutoCompleteProps {
-  handleRequest: (query: string) => Promise<SearchResult[]>;
+type AutoCompleteProps = {
   onItemClick: (result: SearchResult) => void;
   itemLabelFn: (result: SearchResult) => string;
-}
+  requestQuery: DocumentNode;
+};
 
 interface SearchResult {
   name: string;
@@ -16,52 +25,71 @@ interface SearchResult {
 }
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
-  handleRequest,
   onItemClick,
   itemLabelFn,
+  requestQuery,
 }) => {
-  const [inputValue, setInputValue] = useState("");
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [inputValue, setInputValue] = useState<string>("");
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [results, setResults] = useState<SearchResult[]>([]);
+  const [search, { loading, error, data }] = useLazyQuery(requestQuery, {
+    variables: { query: "" },
+  });
+
+  const debouncedSearch = useMemo(
+    () =>
+      debounce((options) => {
+        search(options);
+      }, 1000),
+    [search]
+  );
 
   useEffect(() => {
-    if (inputValue.length >= 3) {
-      setLoading(true);
-      handleRequest(inputValue)
-        .then((results) => {
-          setSearchResults(results);
-        })
-        .catch((err) => {
-          setError(err);
-        })
-        .finally(() => {
-          setSearchResults([]);
-          setLoading(false);
-        });
-    } else {
-      setSearchResults([]);
+    if (inputValue.length < 3) {
+      setResults([]);
+      return;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [inputValue]);
+
+    debouncedSearch({ variables: { query: inputValue } });
+  }, [debouncedSearch, inputValue]);
+
+  useEffect(() => {
+    if (data && data.users && data.repositories) {
+      const users = data.users.edges.map((edge: any) => ({
+        name: edge.node.name,
+        type: "user",
+      }));
+
+      const repositories = data.repositories.edges.map((edge: any) => ({
+        name: edge.node.name,
+        type: "repository",
+      }));
+
+      const mergedResults = sortBy([...users, ...repositories], "name").slice(
+        0,
+        50
+      );
+      setResults(mergedResults);
+    }
+  }, [data]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setActiveIndex(0);
     setInputValue(event.target.value);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (searchResults.length === 0) return;
+    if (results.length === 0) return;
 
-    if (event.key === "ArrowDown" && activeIndex !== searchResults.length - 1) {
+    if (event.key === "ArrowDown" && activeIndex !== results.length - 1) {
       // Move down the list
       setActiveIndex((prevIndex) => (prevIndex === null ? 0 : prevIndex + 1));
     } else if (event.key === "ArrowUp" && activeIndex !== 0) {
       // Move up the list
       setActiveIndex((prevIndex) => (prevIndex === null ? 0 : prevIndex - 1));
     } else if (event.key === "Enter" && activeIndex !== null) {
-      onItemClick(searchResults[activeIndex]);
+      onItemClick(results[activeIndex]);
     }
   };
 
@@ -74,12 +102,14 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
       return <div className="my-4">{error.toString()}</div>;
     }
 
-    if (searchResults.length > 0) {
+    if (results.length > 0) {
       return (
-        <ul>
-          {searchResults.map((result, index) => (
+        <ul className="max-h-[100%] overflow-auto">
+          {results.map((result: SearchResult, index: number) => (
             <li
-              key={result.name}
+              onClick={() => onItemClick(result)}
+              key={index}
+              className="px-4 py-3 bg-primary-950 rounded cursor-pointer my-2"
               style={{
                 fontWeight: index === activeIndex ? "bold" : "normal",
                 textDecoration: index === activeIndex ? "underline" : "none",
@@ -96,15 +126,17 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   };
 
   return (
-    <div className="w-full flex flex-col">
+    <div className="w-full flex flex-col h-full">
       <TextInput
         ref={inputRef}
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        placeholder="Search repositories or users..."
+        placeholder="Start typing..."
       />
-      <>{inputValue.length >= 3 && renderResults()}</>
+      {inputValue.length >= 3 && (
+        <div className="overflow-y-auto">{renderResults()}</div>
+      )}
     </div>
   );
 };
