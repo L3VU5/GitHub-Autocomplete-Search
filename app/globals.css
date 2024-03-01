@@ -8,10 +8,31 @@ body {
   height: 100%;
   color: #f9dfe0;
   background: #0d0303;
+  box-sizing: border-box;
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #2b080d;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #56101a;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #56101a;
 }
