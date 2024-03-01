@@ -40,10 +40,29 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
   const debouncedSearch = useMemo(
     () =>
       debounce((options) => {
-        search(options).then(() => {
+        search(options).then(({ data }) => {
+          if (data?.users && data?.repositories) {
+            const users: SearchResultType[] = data.users.edges.map(
+              (edge: any) => ({
+                ...edge.node,
+                type: "user",
+              })
+            );
+
+            const repositories: SearchResultType[] =
+              data.repositories.edges.map((edge: any) => ({
+                ...edge.node,
+                type: "repository",
+              }));
+
+            const mergedResults = sortBy([...users, ...repositories], (r) =>
+              r.name?.toLowerCase()
+            ).slice(0, 50);
+            setResults(mergedResults);
+          }
           setFetchingData(false);
         });
-      }, 1000),
+      }, 500),
     [search]
   );
 
@@ -64,9 +83,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
 
     if (event.key === "ArrowDown" && activeIndex !== results.length - 1) {
       // Move down the list
+      event.preventDefault();
       setActiveIndex((prevIndex) => (prevIndex === null ? 0 : prevIndex + 1));
     } else if (event.key === "ArrowUp" && activeIndex !== 0) {
       // Move up the list
+      event.preventDefault();
       setActiveIndex((prevIndex) => (prevIndex === null ? 0 : prevIndex - 1));
     } else if (event.key === "Enter" && activeIndex !== null) {
       onItemClick(results[activeIndex]);
@@ -103,7 +124,7 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
             {itemIconFn(result.type)}
             {result.name || "N/A"}
             <div
-              className={`ml-auto text-sm ${
+              className={`ml-auto text-sm hidden md:block ${
                 index === activeIndex ? "text-primary-100" : "text-primary-300"
               }`}
             >
@@ -122,27 +143,6 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
     itemIconFn,
     onItemClick,
   ]);
-
-  useEffect(() => {
-    if (data && data.users && data.repositories) {
-      const users: SearchResultType[] = data.users.edges.map((edge: any) => ({
-        ...edge.node,
-        type: "user",
-      }));
-
-      const repositories: SearchResultType[] = data.repositories.edges.map(
-        (edge: any) => ({
-          ...edge.node,
-          type: "repository",
-        })
-      );
-
-      const mergedResults = sortBy([...users, ...repositories], (r) =>
-        r.name?.toLowerCase()
-      ).slice(0, 50);
-      setResults(mergedResults);
-    }
-  }, [data]);
 
   useEffect(() => {
     if (activeIndex !== null && listRef?.current?.scrollIntoView) {
