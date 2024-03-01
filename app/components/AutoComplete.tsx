@@ -11,7 +11,6 @@ import React, {
 } from "react";
 import { DocumentNode, useLazyQuery } from "@apollo/client";
 import debounce from "lodash/debounce";
-import { sortBy } from "lodash";
 
 import TextInput from "./TextInput";
 import { SearchResultType } from "../types/searchTypes";
@@ -19,13 +18,15 @@ import { SearchResultType } from "../types/searchTypes";
 type AutoCompleteProps = {
   onItemClick: (result: SearchResultType) => void;
   itemIconFn: (type: string) => ReactNode;
+  formatData: (data: any) => SearchResultType[];
   requestQuery: DocumentNode;
 };
 
 const AutoComplete: React.FC<AutoCompleteProps> = ({
   onItemClick,
-  requestQuery,
   itemIconFn,
+  formatData,
+  requestQuery,
 }) => {
   const [inputValue, setInputValue] = useState<string>("");
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -41,29 +42,11 @@ const AutoComplete: React.FC<AutoCompleteProps> = ({
     () =>
       debounce((options) => {
         search(options).then(({ data }) => {
-          if (data?.users && data?.repositories) {
-            const users: SearchResultType[] = data.users.edges.map(
-              (edge: any) => ({
-                ...edge.node,
-                type: "user",
-              })
-            );
-
-            const repositories: SearchResultType[] =
-              data.repositories.edges.map((edge: any) => ({
-                ...edge.node,
-                type: "repository",
-              }));
-
-            const mergedResults = sortBy([...users, ...repositories], (r) =>
-              r.name?.toLowerCase()
-            ).slice(0, 50);
-            setResults(mergedResults);
-          }
+          setResults(formatData(data));
           setFetchingData(false);
         });
       }, 500),
-    [search]
+    [formatData, search]
   );
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {

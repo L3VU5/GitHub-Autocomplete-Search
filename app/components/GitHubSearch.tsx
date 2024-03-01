@@ -4,6 +4,7 @@ import { GoRepo, GoPerson } from "react-icons/go";
 import AutoComplete from "./AutoComplete";
 import { GET_USERS_AND_REPOS } from "../queries/searchQueries";
 import { SearchResultType } from "../types/searchTypes";
+import { formatGitHubData } from "../utils/helpers";
 
 const GitHubSearch: React.FC = () => {
   const onAutoCompleteItemClick = (item: SearchResultType) => {
@@ -23,6 +24,7 @@ const GitHubSearch: React.FC = () => {
       requestQuery={GET_USERS_AND_REPOS}
       onItemClick={onAutoCompleteItemClick}
       itemIconFn={getAutoCompleteItemIcon}
+      formatData={formatGitHubData}
     />
   );
 };
