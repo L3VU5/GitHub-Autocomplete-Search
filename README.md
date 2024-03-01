@@ -1,36 +1,83 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# GitHub AutoComplete Search
 
-## Getting Started
+Showcase of an AutoComplete component. In this project it's using the GitHub API to search for matching Repositories and Users.
 
-First, run the development server:
+## Table of Contents
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- [Live App](#live-app)
+- [Setup](#setup)
+- [Additional Setup](#additional-setup)
+- [About Me](#about-me)
+- [Technologies Used](#technologies-used)
+- [Contact](#contact)
+
+## Live App
+
+https://git-hub-autocomplete-search.vercel.app/
+
+## Setup
+
+To run this app locally, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/L3VU5/GitHub-Autocomplete-Search.git`
+2. Navigate to the project folder: `cd GitHub-Autocomplete-Search`
+3. Install dependencies: `npm install`
+4. Start the application: `npm run start`
+
+If `npm run start` results in error - run `npm run build` command first and re-run.
+
+## Additional Setup
+
+To successfuly make GitHub requests, you'll need to provide GitHub API key.
+
+You can modify the `next.config.mjs` file as follows:
+
+```
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  env: {
+    NEXT_PUBLIC_REACT_APP_GITHUB_API_KEY:
+      "YOUR_API_KEY",
+  },
+};
+
+export default nextConfig;
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+More about GitHub authentication and how to generate access token in here:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/managing-your-personal-access-tokens
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+You can also contact me and I'll provide the key.
 
-## Learn More
+## About Me
 
-To learn more about Next.js, take a look at the following resources:
+🚀 Passionate Software Developer from Kraków with 6+ years of industry experience in designing and developing dynamic web and mobile applications.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+💻 Enthusiastic about experimenting with the newest technologies and frameworks to improve my skill set.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+💡 Specialized in JavaScript, with hands-on experience in building impactful solutions using React, React Native, and AngularJS.
 
-## Deploy on Vercel
+## Technologies Used
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- React.js
+- TypeScript
+- TailwindCSS
+- Jest
+- React Testing Library
+- NextJS
+- GraphQL
+- Apollo
+- Lodash
+- Vercel
+- GitHub API
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Contact
+
+Feel free to reach out to me if you have any questions, collaboration opportunities, or just want to connect:
+
+- Email: paweljedrasik@o2.pl
+- LinkedIn: https://www.linkedin.com/in/paweljedrasik/
+- GitHub: https://github.com/L3VU5
+
+Thank you for checking out my repo!
