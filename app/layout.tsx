@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#070a14",
+  themeColor: "#0b0709",
 };
 
 export default function RootLayout({
@@ -23,8 +23,8 @@ export default function RootLayout({
     <html lang="en" className={`${sans.variable} ${display.variable}`}>
       <body>
         <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-ink">
-          <div className="aurora left-1/2 top-[-12rem] h-[28rem] w-[56rem] -translate-x-1/2 bg-indigo-600/30" />
-          <div className="aurora bottom-[-10rem] right-[-8rem] h-[26rem] w-[30rem] bg-teal-600/20 [animation-delay:-10s]" />
+          <div className="aurora left-1/2 top-[-12rem] h-[28rem] w-[56rem] -translate-x-1/2 bg-brand-600/35" />
+          <div className="aurora bottom-[-10rem] right-[-8rem] h-[26rem] w-[30rem] bg-orange-600/20 [animation-delay:-10s]" />
         </div>
         {children}
       </body>

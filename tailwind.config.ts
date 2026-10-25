@@ -5,10 +5,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        // Warm near-black surfaces.
         ink: {
-          DEFAULT: "#070a14",
-          900: "#0c1020",
-          800: "#12172b",
+          DEFAULT: "#0b0709",
+          900: "#150d11",
+          800: "#1d1217",
+        },
+        // The accent: a vivid red that leans slightly towards coral.
+        brand: {
+          300: "#ffa3ad",
+          400: "#ff6b7d",
+          500: "#f43f5e",
+          600: "#e11d48",
         },
       },
       fontFamily: {

@@ -100,10 +100,10 @@ export default function AutoComplete<TData>({
   const renderPanel = () => {
     if (isPending) {
       return (
-        <div className="flex items-center justify-center gap-3 px-4 py-8 text-sm text-slate-400">
+        <div className="flex items-center justify-center gap-3 px-4 py-8 text-sm text-neutral-400">
           <span
             aria-hidden="true"
-            className="h-5 w-5 animate-spin rounded-full border-2 border-white/15 border-t-sky-400"
+            className="h-5 w-5 animate-spin rounded-full border-2 border-white/15 border-t-brand-400"
           />
           Searching GitHub...
         </div>
@@ -114,14 +114,14 @@ export default function AutoComplete<TData>({
       return (
         <div role="alert" className="px-4 py-6 text-center text-sm">
           <p className="font-medium text-rose-300">The search is unavailable right now.</p>
-          <p className="mt-1 text-slate-500">{error.message}</p>
+          <p className="mt-1 text-neutral-500">{error.message}</p>
         </div>
       );
     }
 
     if (results.length === 0) {
       return (
-        <p className="px-4 py-8 text-center text-sm text-slate-400">
+        <p className="px-4 py-8 text-center text-sm text-neutral-400">
           No results for &ldquo;{term}&rdquo;.
         </p>
       );
@@ -140,7 +140,7 @@ export default function AutoComplete<TData>({
               onMouseMove={() => !active && setActiveIndex(index)}
               onClick={() => onItemSelect(result)}
               className={`flex cursor-pointer items-center gap-3 rounded-xl px-3 py-2.5 transition-colors ${
-                active ? "bg-sky-400/15" : ""
+                active ? "bg-brand-500/15" : ""
               }`}
             >
               {renderIcon(result)}
@@ -149,18 +149,18 @@ export default function AutoComplete<TData>({
                   <Highlight text={result.name} term={term} />
                 </span>
                 {result.description ? (
-                  <span className="block truncate text-xs text-slate-400">{result.description}</span>
+                  <span className="block truncate text-xs text-neutral-400">{result.description}</span>
                 ) : (
-                  <span className="hidden truncate text-xs text-slate-500 md:block">{result.url}</span>
+                  <span className="hidden truncate text-xs text-neutral-500 md:block">{result.url}</span>
                 )}
               </span>
               {typeof result.stars === "number" && (
-                <span className="hidden shrink-0 items-center gap-1 text-xs text-slate-400 sm:flex">
+                <span className="hidden shrink-0 items-center gap-1 text-xs text-neutral-400 sm:flex">
                   <FiStar aria-hidden="true" />
                   {compactNumber.format(result.stars)}
                 </span>
               )}
-              <span className="shrink-0 rounded-md border border-white/10 px-1.5 py-0.5 text-[11px] text-slate-400">
+              <span className="shrink-0 rounded-md border border-white/10 px-1.5 py-0.5 text-[11px] text-neutral-400">
                 {result.type === "user" ? "User" : "Repo"}
               </span>
             </li>
@@ -198,7 +198,7 @@ export default function AutoComplete<TData>({
 
       {!term && suggestions.length > 0 && (
         <div className="mt-5 flex flex-wrap items-center justify-center gap-2 text-sm">
-          <span className="text-slate-500">Try:</span>
+          <span className="text-neutral-500">Try:</span>
           {suggestions.map((suggestion) => (
             <button
               key={suggestion}
@@ -207,7 +207,7 @@ export default function AutoComplete<TData>({
                 updateValue(suggestion);
                 inputRef.current?.focus();
               }}
-              className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-slate-300 transition hover:border-sky-400/50 hover:bg-sky-400/10 hover:text-white"
+              className="rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-1.5 text-neutral-300 transition hover:border-brand-400/50 hover:bg-brand-500/10 hover:text-white"
             >
               {suggestion}
             </button>

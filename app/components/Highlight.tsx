@@ -8,7 +8,7 @@ export default function Highlight({ text, term }: { text: string; term: string }
   return (
     <>
       {text.slice(0, start)}
-      <mark className="rounded-sm bg-sky-400/25 px-0.5 text-white">{text.slice(start, end)}</mark>
+      <mark className="rounded-sm bg-brand-500/30 px-0.5 text-white">{text.slice(start, end)}</mark>
       {text.slice(end)}
     </>
   );

@@ -4,7 +4,7 @@ const linkClass = "transition hover:text-white";
 
 const Footer: React.FC = () => {
   return (
-    <footer className="mt-16 flex flex-wrap items-center justify-between gap-3 text-sm text-slate-500">
+    <footer className="mt-16 flex flex-wrap items-center justify-between gap-3 text-sm text-neutral-500">
       <a
         href="https://github.com/L3VU5"
         target="_blank"

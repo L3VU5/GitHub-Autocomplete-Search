@@ -4,12 +4,12 @@
 
 @layer base {
   html {
-    background: #070a14;
+    background: #0b0709;
     color-scheme: dark;
   }
 
   body {
-    @apply font-sans text-slate-300 antialiased;
+    @apply font-sans text-neutral-300 antialiased;
   }
 
   h1 {
@@ -18,12 +18,12 @@
   }
 
   ::selection {
-    background: rgba(79, 141, 255, 0.45);
+    background: rgba(244, 63, 94, 0.5);
     color: #fff;
   }
 
   :focus-visible {
-    outline: 2px solid #2dd4bf;
+    outline: 2px solid #ff6b7d;
     outline-offset: 3px;
   }
 
@@ -34,7 +34,7 @@
     background: transparent;
   }
   ::-webkit-scrollbar-thumb {
-    background: rgba(148, 163, 184, 0.35);
+    background: rgba(255, 255, 255, 0.22);
     border-radius: 9999px;
   }
 
@@ -56,7 +56,7 @@
 
   /* Palindromic gradient: starts and ends on the same colour, so the looping shimmer has no seam. */
   .gradient-text {
-    background-image: linear-gradient(100deg, #818cf8 0%, #38bdf8 25%, #2dd4bf 50%, #38bdf8 75%, #818cf8 100%);
+    background-image: linear-gradient(100deg, #ff8fa0 0%, #ff4d6a 25%, #ff7a45 50%, #ff4d6a 75%, #ff8fa0 100%);
     background-size: 200% auto;
     -webkit-background-clip: text;
     background-clip: text;
@@ -65,11 +65,11 @@
   }
 
   .kbd {
-    @apply rounded-md border border-white/15 bg-white/[0.06] px-1.5 py-0.5 font-sans text-xs text-slate-200;
+    @apply rounded-md border border-white/15 bg-white/[0.06] px-1.5 py-0.5 font-sans text-xs text-neutral-200;
   }
 
   .panel {
     @apply rounded-2xl border border-white/10 bg-ink-900/80 backdrop-blur-xl;
-    box-shadow: 0 30px 80px -40px rgba(56, 189, 248, 0.45);
+    box-shadow: 0 30px 80px -40px rgba(244, 63, 94, 0.4);
   }
 }
