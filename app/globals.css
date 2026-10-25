@@ -2,37 +2,74 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  padding: 0;
-  margin: 0;
-  height: 100%;
-  color: #f9dfe0;
-  background: #0d0303;
-  box-sizing: border-box;
-}
+@layer base {
+  html {
+    background: #070a14;
+    color-scheme: dark;
+  }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+  body {
+    @apply font-sans text-slate-300 antialiased;
+  }
+
+  h1 {
+    font-family: var(--font-display), system-ui, sans-serif;
+    letter-spacing: -0.02em;
+  }
+
+  ::selection {
+    background: rgba(79, 141, 255, 0.45);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid #2dd4bf;
+    outline-offset: 3px;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(148, 163, 184, 0.35);
+    border-radius: 9999px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-}
+@layer components {
+  .aurora {
+    @apply absolute animate-drift rounded-full;
+    filter: blur(120px);
+  }
 
-/* Track */
-::-webkit-scrollbar-track {
-  background: #2b080d;
-}
+  /* Palindromic gradient: starts and ends on the same colour, so the looping shimmer has no seam. */
+  .gradient-text {
+    background-image: linear-gradient(100deg, #818cf8 0%, #38bdf8 25%, #2dd4bf 50%, #38bdf8 75%, #818cf8 100%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    @apply animate-shimmer;
+  }
 
-/* Handle */
-::-webkit-scrollbar-thumb {
-  background: #56101a;
-  border-radius: 4px;
-}
+  .kbd {
+    @apply rounded-md border border-white/15 bg-white/[0.06] px-1.5 py-0.5 font-sans text-xs text-slate-200;
+  }
 
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-  background: #56101a;
+  .panel {
+    @apply rounded-2xl border border-white/10 bg-ink-900/80 backdrop-blur-xl;
+    box-shadow: 0 30px 80px -40px rgba(56, 189, 248, 0.45);
+  }
 }

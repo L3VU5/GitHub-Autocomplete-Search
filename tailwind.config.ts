@@ -1,77 +1,35 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  content: [
-    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
+  content: ["./app/**/*.{js,ts,jsx,tsx,mdx}"],
   theme: {
-    colors: {
-      text: {
-        50: "#fbeaea",
-        100: "#f7d4d5",
-        200: "#efa9ac",
-        300: "#e77e82",
-        400: "#de5458",
-        500: "#d6292f",
-        600: "#ab2125",
-        700: "#81181c",
-        800: "#561013",
-        900: "#2b0809",
-        950: "#150405",
+    extend: {
+      colors: {
+        ink: {
+          DEFAULT: "#070a14",
+          900: "#0c1020",
+          800: "#12172b",
+        },
       },
-      background: {
-        50: "#faeaea",
-        100: "#f6d5d5",
-        200: "#ecacac",
-        300: "#e38282",
-        400: "#d95959",
-        500: "#d02f2f",
-        600: "#a62626",
-        700: "#7d1c1c",
-        800: "#531313",
-        900: "#2a0909",
-        950: "#150505",
+      fontFamily: {
+        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "sans-serif"],
       },
-      primary: {
-        50: "#fbeaec",
-        100: "#f7d4d9",
-        200: "#efa9b3",
-        300: "#e77e8c",
-        400: "#de5466",
-        500: "#d62940",
-        600: "#ab2133",
-        700: "#811826",
-        800: "#56101a",
-        900: "#2b080d",
-        950: "#150406",
+      keyframes: {
+        drift: {
+          "0%": { transform: "translate3d(0,0,0) scale(1)" },
+          "100%": { transform: "translate3d(60px,40px,0) scale(1.15)" },
+        },
+        shimmer: { to: { backgroundPosition: "200% center" } },
+        rise: {
+          from: { opacity: "0", transform: "translateY(8px)" },
+          to: { opacity: "1", transform: "translateY(0)" },
+        },
       },
-      secondary: {
-        50: "#fbf7ea",
-        100: "#f7eed4",
-        200: "#efdda9",
-        300: "#e7cd7e",
-        400: "#debc54",
-        500: "#d6ab29",
-        600: "#ab8921",
-        700: "#816718",
-        800: "#564410",
-        900: "#2b2208",
-        950: "#151104",
-      },
-      accent: {
-        50: "#fbfbea",
-        100: "#f7f7d4",
-        200: "#efefa9",
-        300: "#e7e77e",
-        400: "#dede54",
-        500: "#d6d629",
-        600: "#abab21",
-        700: "#818118",
-        800: "#565610",
-        900: "#2b2b08",
-        950: "#151504",
+      animation: {
+        drift: "drift 24s ease-in-out infinite alternate",
+        shimmer: "shimmer 10s linear infinite",
+        rise: "rise 0.25s ease-out",
       },
     },
   },

@@ -1,33 +1,20 @@
-"use client";
-
-import { ApolloProvider, ApolloClient, InMemoryCache } from "@apollo/client";
-
-import Header from "./components/Header";
 import Footer from "./components/Footer";
-import Search from "./components/GitHubSearch";
-
-const githubApiEndpoint: string = "https://api.github.com/graphql";
-
-const client = new ApolloClient({
-  uri: githubApiEndpoint,
-  cache: new InMemoryCache(),
-  headers: {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_REACT_APP_GITHUB_API_KEY}`,
-  },
-});
+import GitHubSearch from "./components/GitHubSearch";
+import Header from "./components/Header";
+import SearchProvider from "./components/SearchProvider";
 
 export default function Home() {
   return (
-    <ApolloProvider client={client}>
-      <main className="flex min-h-screen flex-col items-center p-24">
-        <Header />
+    <main className="mx-auto flex min-h-screen w-full max-w-3xl flex-col px-5 pb-8 pt-16 sm:pt-24">
+      <Header />
 
-        <div className="flex-grow max-w-5xl w-full text-sm lg:flex">
-          <Search />
-        </div>
+      <section className="mt-10 flex-1">
+        <SearchProvider>
+          <GitHubSearch />
+        </SearchProvider>
+      </section>
 
-        <Footer />
-      </main>
-    </ApolloProvider>
+      <Footer />
+    </main>
   );
 }
