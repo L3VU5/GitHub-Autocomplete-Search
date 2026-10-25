@@ -28,7 +28,7 @@ Browser (Apollo Client)  ──POST──▶  /api/github  ──▶  GitHub Gra
 
 1. Clone the repository: `git clone https://github.com/L3VU5/GitHub-Autocomplete-Search.git`
 2. Install dependencies: `npm install`
-3. Copy `.env.example` to `.env.local` and set `GITHUB_TOKEN`. A [fine-grained personal access token](https://github.com/settings/personal-access-tokens) without any extra permissions is enough, because only public data is read.
+3. Copy `.env.example` to `.env.local` and set `GITHUB_TOKEN`. Use a [classic personal access token](https://github.com/settings/tokens) with only the `read:org` scope: only public data is read, but GitHub requires that read-only scope for the organization fields of the search (without it the query fails with `INSUFFICIENT_SCOPES`).
 4. Start the app: `npm run dev` and open http://localhost:3000
 
 | Script              | What it does                    |
